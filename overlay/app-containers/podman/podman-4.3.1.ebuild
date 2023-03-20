@@ -1,8 +1,8 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-EGIT_COMMIT="62534053086fdeba7b93117e7c4dc6e797835a3e"
+EGIT_COMMIT="814b7b003cc630bf6ab188274706c383f9fb9915"
 
 inherit bash-completion-r1 flag-o-matic go-module tmpfiles
 
@@ -25,7 +25,8 @@ COMMON_DEPEND="
 	!cgroup-hybrid? ( app-containers/crun )
 	dev-libs/libassuan:=
 	dev-libs/libgpg-error:=
-	>=net-misc/cni-plugins-0.8.6
+	>=app-containers/cni-plugins-0.8.6
+	sys-apps/shadow:=
 	sys-fs/lvm2
 	sys-libs/libseccomp:=
 
