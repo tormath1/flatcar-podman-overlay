@@ -1,8 +1,8 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-EGIT_COMMIT="34e8f3933242f2e566bbbbf343cf69b7d506c1cf"
+EAPI=8
+EGIT_COMMIT="75e3c12579d391b81d871fd1cded6cf0d043550a"
 
 inherit bash-completion-r1 flag-o-matic go-module tmpfiles
 
@@ -14,9 +14,9 @@ SRC_URI="https://github.com/containers/podman/archive/v${PV}.tar.gz -> ${MY_P}.t
 LICENSE="Apache-2.0 BSD BSD-2 CC-BY-SA-4.0 ISC MIT MPL-2.0"
 SLOT="0"
 
-KEYWORDS="amd64 ~arm64 ~ppc64 ~riscv"
+KEYWORDS="amd64 arm64 ~ppc64 ~riscv"
 IUSE="apparmor btrfs cgroup-hybrid +fuse +init +rootless selinux"
-RESTRICT+=" test"
+RESTRICT="test"
 
 COMMON_DEPEND="
 	app-crypt/gpgme:=
@@ -25,7 +25,10 @@ COMMON_DEPEND="
 	!cgroup-hybrid? ( app-containers/crun )
 	dev-libs/libassuan:=
 	dev-libs/libgpg-error:=
-	>=app-containers/cni-plugins-0.8.6
+	|| (
+		>=app-containers/cni-plugins-0.8.6
+		( app-containers/netavark app-containers/aardvark-dns )
+	)
 	sys-apps/shadow:=
 	sys-fs/lvm2
 	sys-libs/libseccomp:=
@@ -113,6 +116,9 @@ src_install() {
 	insinto /etc/containers
 	newins test/registries.conf registries.conf.example
 	newins test/policy.json policy.json.example
+
+	insinto /etc/cni/net.d
+	doins cni/87-podman-bridge.conflist
 
 	insinto /usr/share/containers
 	doins vendor/github.com/containers/common/pkg/seccomp/seccomp.json
