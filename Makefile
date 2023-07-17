@@ -1,5 +1,5 @@
 TAG = dev:latest
-FLATCAR_VERSION = 3374.2.5
+FLATCAR_VERSION = 3510.2.4
 OVERLAY_DIR = /var/lib/portage/podman-overlay
 
 podman.raw: container
